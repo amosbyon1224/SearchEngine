@@ -2,11 +2,13 @@
 
 ###Student Information
 **Developer 1**:
-  + Name: Tommy Trojan
-  + USC Email: ttrojan@usc.edu
-  + USC ID: 0123456789
+  + Name: Amos Byon
+  + USC Email: abyon@usc.edu
+  + USC ID: 1513187445
 
 **Developer 2**:
-  + Name: Traveler VII
-  + USC Email: traveler@usc.edu
-  + USC ID: 9876543210
+  + Name: Trevor Cai
+  + USC Email: tcai@usc.edu
+  + USC ID: 4338012984
+
+We have made contact and started working as a group.
