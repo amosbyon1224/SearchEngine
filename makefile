@@ -8,7 +8,7 @@ CFLAGS=-Wall -std=c++11 -g -I./lib
 all: crawler
 
 crawler:
-	$(CC) trevor_src/crawler.cpp -o $@ $(CFLAGS)
+	$(CC) src/crawler.cpp -o $@ $(CFLAGS)
 
 # Probably not how I should implement clean!
 .PHONY: clean
