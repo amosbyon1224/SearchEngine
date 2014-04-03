@@ -31,7 +31,6 @@ class SearchEngine  {
         Set<WebPage*> generateQuery(std::string query);
 
         // Utilities
-        std::string toLower(std::string str);
         bool alphanumeric(char ch);
         bool whiteSpace(std::string str);
 
