@@ -1,5 +1,6 @@
 #include "SearchEngine.h"
 #include <stdexcept>
+#include <algorithm>
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -46,7 +47,7 @@ WebPage* SearchEngine::lookUp(const std::string inStr) const    {
 // Process Search
 Set<WebPage*> SearchEngine::processSearch(std::string inStr) {
     std::string line;
-    inStr = toLower(inStr);
+    std::transform(inStr.begin(),inStr.end(),inStr.begin(),::tolower);
     std::stringstream ss;
     ss << inStr;
     ss >> inStr;
@@ -67,7 +68,7 @@ Set<WebPage*> SearchEngine::processAND(std::string line) {
             // This means we're at end of the word - check for content
             if(word.size() > 0) {
                 // Put the query to lowercase and try to get; if not, make an entry if necessary
-                word = toLower(word);
+                std::transform(word.begin(),word.end(),word.begin(),::tolower);
                 singleword = processSingle(word,"");
                 // Then add it to result
                 if(result.empty()) result = singleword;
@@ -92,7 +93,7 @@ Set<WebPage*> SearchEngine::processOR(std::string line)  {
             // This means we're at end of the word - check for content
             if(word.size() > 0) {
                 // Put the query to lowercase and try to get; if not, make an entry if necessary
-                word = toLower(word);
+                std::transform(word.begin(),word.end(),word.begin(),::tolower);
                 singleword = processSingle(word,"");
                 // Then add it to result
                 if(result.empty()) result = singleword;
@@ -128,16 +129,6 @@ Set<WebPage*> SearchEngine::generateQuery(std::string query)    {
         if(words.find(query) != words.end()) containing.insert(*it);
     }
     return containing;
-}
-
-// Makes string lowercase
-std::string SearchEngine::toLower(std::string str)  {
-    for(unsigned int i=0;i<str.size();i++)   {
-        if(str[i] >= 'A' && str[i] <= 'Z')  {
-            str[i] = str[i] + 'a' - 'A';
-        }
-    }
-    return str;
 }
 
 // Checks if char is alphanumeric

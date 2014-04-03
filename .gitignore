@@ -25,3 +25,4 @@ crawler
 
 # QT Makefile
 Makefile
+moc_*.cpp
