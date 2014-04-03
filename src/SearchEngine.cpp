@@ -143,3 +143,38 @@ bool SearchEngine::whiteSpace (std::string str)   {
     }
     return true;
 }
+
+std::map<std::string,Set<WebPage*> > SearchEngine::generateAdjacency(const Set<WebPage*>& S) const {
+    Set<WebPage*> T(S);
+    std::map<std::string,Set<WebPage*> > adjList;   // Actually only contains the outgoing links in set T
+
+    // For each entry
+    for(Set<WebPage*>::iterator it = S.begin(); it != S.end(); ++it)    {
+        // Add all its outgoing links
+        Set<WebPage*> outgoing = (*it)->allOutgoingLinks();
+        for(Set<WebPage*>::iterator oit = outgoing.begin(); oit != outgoing.end(); ++oit) {
+            T.insert(*oit);
+        }
+
+        // Add all its incoming links
+        Set<WebPage*> incoming = (*it)->allIncomingLinks();
+        for(Set<WebPage*>::iterator iit = incoming.begin(); iit != incoming.end(); ++iit)   {
+            T.insert(*iit);
+        }
+
+        // All Outgoing links from these are in set, so just stick into map
+        adjList[(*it)->filename()] = outgoing;
+    }
+    
+    // For all the others, add the relevant adjacencies to map
+    for(Set<WebPage*>::iterator it = T.begin(); it != T.end(); ++it)    {
+        std::string fname = (*it)->filename();
+        // Don't care if already done
+        if(adjList.find(fname) != adjList.end()) continue;
+        
+        // Find what outgoing links are a member of T and add them to adjList entry
+        adjList[fname] = T.setIntersection((*it)->allOutgoingLinks());
+    }
+
+    return adjList;
+}
