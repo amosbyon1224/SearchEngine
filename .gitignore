@@ -1,5 +1,7 @@
 # Directories
 data/
+bin/
+obj/
 
 # Swap files
 *.swp
@@ -20,3 +22,6 @@ data/
 
 # Specific executables
 crawler
+
+# QT Makefile
+Makefile
