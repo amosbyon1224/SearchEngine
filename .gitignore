@@ -1,5 +1,7 @@
 # Directories
 data/
+bin/
+obj/
 
 # Swap files
 *.swp
@@ -23,3 +25,7 @@ crawler
 
 # Testing files
 msort_test.cpp
+
+# QT Makefile
+Makefile
+moc_*.cpp

@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
+#include <string>
 
 // Empty constructor
 WebPage::WebPage() : rawfile(), words(), fname() {}
@@ -36,9 +38,9 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
 
     // Parse file into words and get the links out
     // These are for getting lines
-    char ch;
-    char toLower = 'a' - 'A';
-    std::string line="",tempStr="";
+    // char ch;
+    // char toLower = 'a' - 'A';
+    std::string line="",temp="";
     // These are for processing links
     std::string linkSyntax = "](", linkText;
     size_t endBracket, startBracket, endParentheses;
@@ -80,6 +82,26 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
 
         // Add contents of each line to rawfile
         rawfile += line += "\n";
+
+        temp = line;
+        // Lowercase
+        std::transform(temp.begin(),temp.end(),temp.begin(),::tolower);
+
+        char a[temp.size()+1];
+        strcpy(a,temp.c_str());
+        char* b = strtok(a," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`");
+        while(b != NULL)    {
+            try {
+                words.insert(b);
+            }
+            // If it fails, it's fine
+            catch(std::exception &e)    {}
+            b = strtok(NULL," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`");
+        }
+    }
+
+        
+/*
         // Then iterate through the line one char at a time looking for words
         for(unsigned int i=0;i<line.size();i++)   {
             ch = line[i];
@@ -99,7 +121,7 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
                 tempStr = "";   // Reset std::string
             }
         }
-    }
+        */
     in.close();
 }
 

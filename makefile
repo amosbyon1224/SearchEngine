@@ -3,7 +3,7 @@ CC=g++
 # For final
 # CFLAGS=-Werror=all -std=c++11 -O2 -I.
 # For debug
-CFLAGS=-Wall -std=c++11 -g -I./trevor_lib
+CFLAGS=-Wall -std=c++11 -g -I./lib
 
 all: crawler
 
