@@ -4,8 +4,8 @@
 
 TEMPLATE = app
 TARGET = 
-DEPENDPATH += . lib trevor_src
-INCLUDEPATH += . trevor_src lib
+DEPENDPATH += . lib src
+INCLUDEPATH += . src lib
 DESTDIR = bin                                                                  
 OBJECTS_DIR = obj                                                              
 QMAKE_CXX = g++-4.8                                                            
@@ -14,12 +14,12 @@ QMAKE_CXXFLAGS += -std=c++11
 
 # Input
 HEADERS += lib/Set.h \
-           trevor_src/ResultWin.h \
-           trevor_src/SearchEngine.h \
-           trevor_src/SearchForm.h \
-           trevor_src/WebPage.h
-SOURCES += trevor_src/ResultWin.cpp \
-           trevor_src/SearchEngine.cpp \
-           trevor_src/SearchForm.cpp \
-           trevor_src/searchGUI.cpp \
-           trevor_src/WebPage.cpp
+           src/ResultWin.h \
+           src/SearchEngine.h \
+           src/SearchForm.h \
+           src/WebPage.h
+SOURCES += src/ResultWin.cpp \
+           src/SearchEngine.cpp \
+           src/SearchForm.cpp \
+           src/searchGUI.cpp \
+           src/WebPage.cpp
