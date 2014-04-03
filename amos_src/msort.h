@@ -4,14 +4,12 @@
 #include <cstdlib>
 #include <deque>
 
-using namespace std;
-
 template <class T, class Comparator>
-void mergeSort (deque<T> myArray, Comparator comp){
+void mergeSort (std::deque<T>& myArray, Comparator comp){
 	if(1 < myArray.size()){
-		deque<T> arr1(myArray.begin(), myArray.begin()+array.size()/2);
+		std::deque<T> arr1(myArray.begin(), myArray.begin()+myArray.size()/2);
 		mergeSort(arr1, comp);
-		deque<T> arr2(myArray.begin()+array.size()/2, myArray.end());
+		std::deque<T> arr2(myArray.begin()+myArray.size()/2, myArray.end());
 		mergeSort(arr2, comp);
 
 		myArray = merge(arr1, arr2, comp);
@@ -19,8 +17,8 @@ void mergeSort (deque<T> myArray, Comparator comp){
 }
 
 template <class T, class Comparator>
-deque<T> merge(deque<T> arr1, deque<T> arr2, Comparator comp){
-	deque<T> result;
+std::deque<T> merge(std::deque<T> arr1, std::deque<T> arr2, Comparator comp){
+	std::deque<T> result;
 	while(!arr1.empty() && !arr2.empty()){
 		if(comp(arr1.front(), arr2.front())){
 			result.push_back(arr1.front());
