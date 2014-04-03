@@ -99,29 +99,6 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
             b = strtok(NULL," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`");
         }
     }
-
-        
-/*
-        // Then iterate through the line one char at a time looking for words
-        for(unsigned int i=0;i<line.size();i++)   {
-            ch = line[i];
-            // Check if alphanumeric
-            if((ch >= '0' && ch <='9') || (ch>='a' && ch<='z')) tempStr+=ch;
-            // If uppercase, add lowercase instead
-            else if(ch>='A' && ch<='Z') tempStr+=(ch + toLower);
-            else    {
-                // Then it's word demarcation, try to insert word if word exists
-                if(tempStr.size() > 0)  {
-                    try {
-                        words.insert(tempStr);
-                    }
-                    // If it's already in, don't really care
-                    catch(std::exception &e) {}
-                }
-                tempStr = "";   // Reset std::string
-            }
-        }
-        */
     in.close();
 }
 
