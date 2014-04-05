@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include "Set.h"
+#include <deque>
 
 class SearchEngine  {
     public:
@@ -13,7 +14,7 @@ class SearchEngine  {
         ~SearchEngine();
 
         // Process a string
-        Set<WebPage*> processSearch(std::string inStr);
+        std::deque<WebPage*> processSearch(std::string inStr);
 
         // Get page lookup
         WebPage* lookUp(const std::string inStr) const;

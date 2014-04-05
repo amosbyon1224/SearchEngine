@@ -45,7 +45,7 @@ WebPage* SearchEngine::lookUp(const std::string inStr) const    {
 }
 
 // Process Search
-Set<WebPage*> SearchEngine::processSearch(std::string inStr) {
+std::deque<WebPage*> SearchEngine::processSearch(std::string inStr) {
     // Bring input to lowercase
     std::string line;
     std::transform(inStr.begin(),inStr.end(),inStr.begin(),::tolower);
@@ -60,9 +60,14 @@ Set<WebPage*> SearchEngine::processSearch(std::string inStr) {
     // Add on blank space to allow last word to be processed if AND/OR
     line += "\n";
 
-    if(inStr == "and") return processAND(line);
-    else if(inStr == "or") return processOR(line);
-    else return processSingle(inStr,line);
+    // Get Set S
+    Set<WebPage*> S;
+    if(inStr == "and") S = processAND(line);
+    else if(inStr == "or") S = processOR(line);
+    else S = processSingle(inStr,line);
+
+    // Then make adjacency matrix & generate page rank
+    return FUNCTIONNAME(generateAdjacency(S));
 }
 
 Set<WebPage*> SearchEngine::processAND(const std::string line) {
