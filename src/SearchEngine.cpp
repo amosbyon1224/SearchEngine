@@ -46,18 +46,26 @@ WebPage* SearchEngine::lookUp(const std::string inStr) const    {
 
 // Process Search
 Set<WebPage*> SearchEngine::processSearch(std::string inStr) {
+    // Bring input to lowercase
     std::string line;
     std::transform(inStr.begin(),inStr.end(),inStr.begin(),::tolower);
+
+    // Get only the first word
     std::stringstream ss;
     ss << inStr;
     ss >> inStr;
+    // And then the rest of the line
     getline(ss,line);
+
+    // Add on blank space to allow last word to be processed if AND/OR
+    line += "\n";
+
     if(inStr == "and") return processAND(line);
     else if(inStr == "or") return processOR(line);
     else return processSingle(inStr,line);
 }
 
-Set<WebPage*> SearchEngine::processAND(std::string line) {
+Set<WebPage*> SearchEngine::processAND(const std::string line) {
     Set<WebPage*> result,singleword;
     std::string word="";
 
@@ -82,7 +90,7 @@ Set<WebPage*> SearchEngine::processAND(std::string line) {
 }
 
 // What to do when the user issues an or command
-Set<WebPage*> SearchEngine::processOR(std::string line)  {
+Set<WebPage*> SearchEngine::processOR(const std::string line)  {
     Set<WebPage*> result,singleword;
     std::string word="";
 
@@ -106,14 +114,16 @@ Set<WebPage*> SearchEngine::processOR(std::string line)  {
     return result;
 }
 
-Set<WebPage*> SearchEngine::processSingle(std::string inStr, std::string line)  {
+Set<WebPage*> SearchEngine::processSingle(const std::string inStr, const std::string line)  {
     Set<WebPage*> word;
 
     //Check if valid input
     if(whiteSpace(line))  {
+        // Get corresponding set if it exists
         try {
             word = queries.at(inStr);
         }
+        // If not, generate it
         catch(std::exception &e) {
             word = generateQuery(inStr);
             queries.insert(std::pair<std::string,Set<WebPage*> >(inStr,word));
@@ -122,9 +132,9 @@ Set<WebPage*> SearchEngine::processSingle(std::string inStr, std::string line)  
     return word;
 }
 
-Set<WebPage*> SearchEngine::generateQuery(std::string query)    {
+Set<WebPage*> SearchEngine::generateQuery(const std::string query) const    {
     Set<WebPage*> containing;
-    for(std::vector<WebPage*>::iterator it = pages.begin(); it != pages.end(); ++it)  {
+    for(std::vector<WebPage*>::const_iterator it = pages.begin(); it != pages.end(); ++it)  {
         Set<std::string> words = (*it)->allWords();
         if(words.find(query) != words.end()) containing.insert(*it);
     }
@@ -132,12 +142,12 @@ Set<WebPage*> SearchEngine::generateQuery(std::string query)    {
 }
 
 // Checks if char is alphanumeric
-bool SearchEngine::alphanumeric (char ch) {
+bool SearchEngine::alphanumeric (const char ch) const {
     return ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch<='Z') || (ch>='0' && ch<='9'));
 }
 
 // Checks if string is only whitespace
-bool SearchEngine::whiteSpace (std::string str)   {
+bool SearchEngine::whiteSpace (const std::string str) const {
     for(unsigned int i=0; i<str.size(); i++) {
         if (!(str[i] == ' ' || str[i] == '\t' || str[i] == '\n')) return false;
     }

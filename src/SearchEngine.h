@@ -25,17 +25,17 @@ class SearchEngine  {
         std::map<std::string,WebPage*> pageNames;
 
         // Processing
-        Set<WebPage*> processAND(std::string line);
-        Set<WebPage*> processOR(std::string line);
-        Set<WebPage*> processSingle(std::string inStr, std::string line);
-        Set<WebPage*> generateQuery(std::string query);
+        Set<WebPage*> processAND(const std::string line);
+        Set<WebPage*> processOR(const std::string line);
+        Set<WebPage*> processSingle(const std::string inStr, const std::string line);
+        Set<WebPage*> generateQuery(const std::string query) const;
 
         // Page Rank
-        std::map<std::string,Set<WebPage*> > generateAdjacency(const Set<WebPage*>& S);
+        std::map<std::string,Set<WebPage*> > generateAdjacency(const Set<WebPage*>& S) const;
 
         // Utilities
-        bool alphanumeric(char ch);
-        bool whiteSpace(std::string str);
+        bool alphanumeric(const char ch) const;
+        bool whiteSpace(const std::string str) const;
 
 };
 

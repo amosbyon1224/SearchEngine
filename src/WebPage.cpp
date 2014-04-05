@@ -36,11 +36,8 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
     in.open(fname);
     if(in.fail()) throw std::invalid_argument("Passed file did not open.");
 
-    // Parse file into words and get the links out
-    // These are for getting lines
-    // char ch;
-    // char toLower = 'a' - 'A';
-    std::string line="",temp="";
+    // Store the line in a string
+    std::string line;
     // These are for processing links
     std::string linkSyntax = "](", linkText;
     size_t endBracket, startBracket, endParentheses;
@@ -58,6 +55,7 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
             else    {
                 // Get the link
                 linkText = line.substr(endBracket+2,endParentheses - endBracket-2);
+
                 // Find the corresponding page
                 try {
                     // Again, should be by reference so not memory waste
@@ -65,10 +63,10 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
                     // Add to link things
                     wp->inLinks.insert(this);
                     outLinks.insert(wp);
-
                 }
+                // If it doesn't work, then w/e
                 catch(std::exception &e) {
-                    std::cout << "Broken Link" << std::endl;
+                    throw std::runtime_error("Invalid page link");
                 }
 
                 // Erase Everything around the anchor text
@@ -83,20 +81,21 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
         // Add contents of each line to rawfile
         rawfile += line += "\n";
 
-        temp = line;
+        std::string temp = line;
         // Lowercase
         std::transform(temp.begin(),temp.end(),temp.begin(),::tolower);
 
+        // Change temp to a c string, then use strtok to separate based on the non-alphanumeric characters
         char a[temp.size()+1];
         strcpy(a,temp.c_str());
-        char* b = strtok(a," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`");
+        char* b = strtok(a," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`\t\r");
         while(b != NULL)    {
             try {
                 words.insert(b);
             }
             // If it fails, it's fine
             catch(std::exception &e)    {}
-            b = strtok(NULL," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`");
+            b = strtok(NULL," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`\t\r");
         }
     }
     in.close();
