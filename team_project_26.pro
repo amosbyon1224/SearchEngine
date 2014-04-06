@@ -15,11 +15,12 @@ QMAKE_CXXFLAGS += -std=c++11
 # Input
 HEADERS += lib/Set.h \
            src/ResultWin.h \
+           src/msort.h \
            src/SearchEngine.h \
            src/SearchForm.h \
            src/WebPage.h
 SOURCES += src/ResultWin.cpp \
            src/SearchEngine.cpp \
            src/SearchForm.cpp \
-           src/searchGUI.cpp \
+           src/main.cpp \
            src/WebPage.cpp
