@@ -12,9 +12,13 @@ SearchForm::SearchForm(QWidget* parent, SearchEngine* engine) : QWidget(parent),
     quitBtn = new QPushButton("&Quit");
     searchTerms = new QLineEdit;
     resultBox = new QListWidget;
+    pageRank = new QRadioButton("&PageRank");
+    alphabet = new QRadioButton("&Alphabetical");
     searchSection = new QHBoxLayout;
     buttons = new QHBoxLayout;
+    radioButtons = new QHBoxLayout;
     mainLayout = new QVBoxLayout;
+    buttonBox = new QGroupBox("Sort results by...");
 
     // Lay out buttons
     buttons->addWidget(aboutBtn);
@@ -24,8 +28,15 @@ SearchForm::SearchForm(QWidget* parent, SearchEngine* engine) : QWidget(parent),
     searchSection->addWidget(searchTerms);
     searchSection->addWidget(searchBtn);
 
+    // Lay out radio buttons, with pagerank as default
+    pageRank->setChecked(true);
+    radioButtons->addWidget(pageRank);
+    radioButtons->addWidget(alphabet);
+    buttonBox->setLayout(radioButtons);
+
     // Lay out everything
     mainLayout->addLayout(searchSection);
+    mainLayout->addWidget(buttonBox);
     mainLayout->addWidget(resultBox);
     mainLayout->addLayout(buttons);
     
@@ -61,7 +72,7 @@ void SearchForm::quitClicked()  {
 
 void SearchForm::searchClicked()    {
     resultBox->clear();
-    results = se->processSearch(searchTerms->text().toStdString());
+    results = se->processSearch(searchTerms->text().toStdString(),pageRank->isChecked());
     for(std::deque<WebPage*>::iterator it = results.begin(); it != results.end(); ++it)    {
         new QListWidgetItem(QString((*it)->filename().c_str()), resultBox);
     }

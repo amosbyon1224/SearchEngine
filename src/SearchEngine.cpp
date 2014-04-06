@@ -45,7 +45,11 @@ WebPage* SearchEngine::lookUp(const std::string inStr) const    {
 }
 
 // Process Search
-std::deque<WebPage*> SearchEngine::processSearch(std::string inStr) {
+std::deque<WebPage*> SearchEngine::processSearch(std::string inStr,bool usePR) {
+    // For debugging w/o having function done.
+    std::deque<WebPage*> asdf;
+    return asdf;
+    /*
     // Bring input to lowercase
     std::string line;
     std::transform(inStr.begin(),inStr.end(),inStr.begin(),::tolower);
@@ -66,8 +70,54 @@ std::deque<WebPage*> SearchEngine::processSearch(std::string inStr) {
     else if(inStr == "or") S = processOR(line);
     else S = processSingle(inStr,line);
 
+    // Generate T
+    Set<WebPage*> T = generateT(S);
+
     // Then make adjacency matrix & generate page rank
-    return FUNCTIONNAME(generateAdjacency(S));
+    if(usePR) return FUNCTIONNAME(generateAdjacency(T));
+    else return SetToDeque(T);
+    */
+}
+
+Set<WebPage*> SearchEngine::generateT(const Set<WebPage*>& S) const {
+    Set<WebPage*> T(S);
+
+    // For each entry
+    for(Set<WebPage*>::const_iterator it = S.begin(); it != S.end(); ++it)    {
+        // Add all its outgoing links
+        Set<WebPage*> outgoing = (*it)->allOutgoingLinks();
+        for(Set<WebPage*>::iterator oit = outgoing.begin(); oit != outgoing.end(); ++oit) {
+            T.insert(*oit);
+        }
+
+        // Add all its incoming links
+        Set<WebPage*> incoming = (*it)->allIncomingLinks();
+        for(Set<WebPage*>::iterator iit = incoming.begin(); iit != incoming.end(); ++iit)   {
+            T.insert(*iit);
+        }
+    }
+    return T;
+}
+
+std::map<std::string,Set<WebPage*> > SearchEngine::generateAdjacency(const Set<WebPage*>& T) const  {
+    std::map<std::string,Set<WebPage*> > adjList;   // Actually only contains the outgoing links in set T
+
+    // Only care about intersection of outgoing and T.
+    for(Set<WebPage*>::const_iterator it = T.begin(); it != T.end(); ++it)    {
+        // Find what outgoing links are a member of T and add them to adjList entry
+        adjList[(*it)->filename()] = T.setIntersection((*it)->allOutgoingLinks());
+    }
+
+    return adjList;
+}
+
+// Take all elements of Set and place them in sorted deque
+std::deque<WebPage*> SearchEngine::SetToDeque(Set<WebPage*>& source) const  {
+    std::deque<WebPage*> destination;
+    for(Set<WebPage*>::iterator it = source.begin(); it != source.end(); ++it)  {
+        destination.push_back(*it);
+    }
+    return mergeSort(destination,COMPARATOR);
 }
 
 Set<WebPage*> SearchEngine::processAND(const std::string line) {
@@ -157,39 +207,4 @@ bool SearchEngine::whiteSpace (const std::string str) const {
         if (!(str[i] == ' ' || str[i] == '\t' || str[i] == '\n')) return false;
     }
     return true;
-}
-
-std::map<std::string,Set<WebPage*> > SearchEngine::generateAdjacency(const Set<WebPage*>& S) const {
-    Set<WebPage*> T(S);
-    std::map<std::string,Set<WebPage*> > adjList;   // Actually only contains the outgoing links in set T
-
-    // For each entry
-    for(Set<WebPage*>::iterator it = S.begin(); it != S.end(); ++it)    {
-        // Add all its outgoing links
-        Set<WebPage*> outgoing = (*it)->allOutgoingLinks();
-        for(Set<WebPage*>::iterator oit = outgoing.begin(); oit != outgoing.end(); ++oit) {
-            T.insert(*oit);
-        }
-
-        // Add all its incoming links
-        Set<WebPage*> incoming = (*it)->allIncomingLinks();
-        for(Set<WebPage*>::iterator iit = incoming.begin(); iit != incoming.end(); ++iit)   {
-            T.insert(*iit);
-        }
-
-        // All Outgoing links from these are in set, so just stick into map
-        adjList[(*it)->filename()] = outgoing;
-    }
-    
-    // For all the others, add the relevant adjacencies to map
-    for(Set<WebPage*>::iterator it = T.begin(); it != T.end(); ++it)    {
-        std::string fname = (*it)->filename();
-        // Don't care if already done
-        if(adjList.find(fname) != adjList.end()) continue;
-        
-        // Find what outgoing links are a member of T and add them to adjList entry
-        adjList[fname] = T.setIntersection((*it)->allOutgoingLinks());
-    }
-
-    return adjList;
 }

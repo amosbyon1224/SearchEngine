@@ -8,9 +8,11 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QListWidgetItem>
+#include <QRadioButton>
+#include <QGroupBox>
+#include <deque>
 #include "SearchEngine.h"
 #include "ResultWin.h"
-#include "Set.h"
 
 class SearchForm : public QWidget   {
     Q_OBJECT
@@ -35,9 +37,13 @@ class SearchForm : public QWidget   {
         QPushButton*    quitBtn;
         QLineEdit*      searchTerms;
         QListWidget*    resultBox;
+        QRadioButton*   pageRank;
+        QRadioButton*   alphabet;
         QHBoxLayout*    searchSection;
         QHBoxLayout*    buttons;
+        QHBoxLayout*    radioButtons;
         QVBoxLayout*    mainLayout;
+        QGroupBox*      buttonBox;
 
         // Pointer to search engine
         SearchEngine* se;
@@ -46,7 +52,7 @@ class SearchForm : public QWidget   {
         ResultWin* reswin;
 
         // List of dynamic result windows
-        Set<WebPage*> results;
+        std::deque<WebPage*> results;
         //std::list<QListWidgetItem*> results;
 };
 
