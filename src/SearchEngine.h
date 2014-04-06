@@ -42,4 +42,8 @@ class SearchEngine  {
 
 };
 
+struct AlphaWPComp  {
+    bool operator()(const WebPage* lhs, const WebPage* rhs);
+};
+
 #endif

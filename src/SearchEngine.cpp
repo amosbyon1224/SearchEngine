@@ -1,9 +1,15 @@
 #include "SearchEngine.h"
+#include "msort.h"
 #include <stdexcept>
 #include <algorithm>
 #include <sstream>
 #include <iostream>
 #include <fstream>
+
+// Comparator object
+bool AlphaWPComp::operator()(const WebPage* lhs, const WebPage* rhs)    {
+    return lhs->filename() < rhs->filename();
+}
 
 //Constructors
 SearchEngine::SearchEngine()    {}
@@ -117,7 +123,10 @@ std::deque<WebPage*> SearchEngine::SetToDeque(Set<WebPage*>& source) const  {
     for(Set<WebPage*>::iterator it = source.begin(); it != source.end(); ++it)  {
         destination.push_back(*it);
     }
-    return mergeSort(destination,COMPARATOR);
+
+    AlphaWPComp comp;
+    mergeSort(destination,comp);
+    return destination;
 }
 
 Set<WebPage*> SearchEngine::processAND(const std::string line) {
