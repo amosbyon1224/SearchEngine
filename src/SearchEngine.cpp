@@ -52,10 +52,6 @@ WebPage* SearchEngine::lookUp(const std::string inStr) const    {
 
 // Process Search
 std::deque<WebPage*> SearchEngine::processSearch(std::string inStr,bool usePR) {
-    // For debugging w/o having function done.
-    std::deque<WebPage*> asdf;
-    return asdf;
-    /*
     // Bring input to lowercase
     std::string line;
     std::transform(inStr.begin(),inStr.end(),inStr.begin(),::tolower);
@@ -79,6 +75,8 @@ std::deque<WebPage*> SearchEngine::processSearch(std::string inStr,bool usePR) {
     // Generate T
     Set<WebPage*> T = generateT(S);
 
+    return SetToDeque(T);
+    /*
     // Then make adjacency matrix & generate page rank
     if(usePR) return FUNCTIONNAME(generateAdjacency(T));
     else return SetToDeque(T);
