@@ -78,25 +78,31 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
             endBracket = line.find(linkSyntax);
         }
 
-        // Add contents of each line to rawfile
-        rawfile += line += "\n";
+        // Add contents of each line to rawfile and add endline to line (For delimitation)
+        line += "\n";
+        rawfile += line;
 
-        std::string temp = line;
-        // Lowercase
-        std::transform(temp.begin(),temp.end(),temp.begin(),::tolower);
-
-        // Change temp to a c string, then use strtok to separate based on the non-alphanumeric characters
-        char a[temp.size()+1];
-        strcpy(a,temp.c_str());
-        char* b = strtok(a," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`\t\r");
-        while(b != NULL)    {
-            try {
-                words.insert(b);
-            }
-            // If it fails, it's fine
-            catch(std::exception &e)    {}
-            b = strtok(NULL," <.>.?/:;{[}]|-_+\"=)(*&^$#@!~`\t\r");
-        }
+        // Iterate through line looking for words
+        std::string tempStr;
+        char ch, toLower = 'a' - 'A';
+        for(unsigned int i=0;i<line.size();++i)   {                            
+            ch = line[i];                                                      
+            // Check if alphanumeric                                           
+            if((ch >= '0' && ch <='9') || (ch>='a' && ch<='z')) tempStr+=ch;   
+            // If uppercase, add lowercase instead                             
+            else if(ch>='A' && ch<='Z') tempStr+=(ch + toLower);               
+            else    {                                                          
+                // Then it's word demarcation, try to insert word if word exists
+                if(tempStr.size() > 0)  {                                      
+                    try {                                                      
+                        words.insert(tempStr);                                 
+                    }                                                          
+                    // If it's already in, don't really care                   
+                    catch(std::exception &e) {}                                
+                }                                                              
+                tempStr = "";   // Reset tempstr
+            }                                                                  
+        }                                     
     }
     in.close();
 }
