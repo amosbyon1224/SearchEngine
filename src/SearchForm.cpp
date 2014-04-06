@@ -62,7 +62,7 @@ void SearchForm::quitClicked()  {
 void SearchForm::searchClicked()    {
     resultBox->clear();
     results = se->processSearch(searchTerms->text().toStdString());
-    for(Set<WebPage*>::iterator it = results.begin(); it != results.end(); ++it)    {
+    for(std::deque<WebPage*>::iterator it = results.begin(); it != results.end(); ++it)    {
         new QListWidgetItem(QString((*it)->filename().c_str()), resultBox);
     }
 }
