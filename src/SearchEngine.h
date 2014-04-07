@@ -35,7 +35,7 @@ class SearchEngine  {
         Set<WebPage*> generateT(const Set<WebPage*>& S) const;  // Expand set to 1-away.
         std::map<std::string,Set<WebPage*> > generateAdjacency(const Set<WebPage*>& T) const;   // Generate adjacency list
         std::deque<WebPage*> SetToDeque(Set<WebPage*>& source) const;   // Change Set to sorted std::deque
-        std::map<std::string, double> generatePageRank(std::map<std::string, Set<WebPage*> > myMap)
+        std::map<std::string, double> generatePageRank(std::map<std::string, Set<WebPage*> > myMap) //Generate map with pagerank value associated to filename
 
         // Utilities
         bool alphanumeric(const char ch) const; // Returns true iff character is alphanumeric
