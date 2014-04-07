@@ -11,6 +11,10 @@ bool AlphaWPComp::operator()(const WebPage* lhs, const WebPage* rhs)    {
     return lhs->filename() < rhs->filename();
 }
 
+bool DoubleComp::operator()(const double lhs, const double rhs){
+    return lhs < rhs;
+}
+
 //Constructors
 SearchEngine::SearchEngine()    {}
 SearchEngine::SearchEngine(std::string fname)    {
@@ -176,6 +180,31 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
         pr = temp_pr;
     }
     return pr;
+}
+
+std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMap){
+    std::deque<double> destination;
+
+    std::map<double, std::string> swap;
+
+    //swaps the key with the val
+    for(std::map<std::string, double>::iterator it = myMap.begin(); it != myMap.end(); ++it){
+        swap[it->second] = it->first;
+    }
+    for(std::map<double, std::string>::iterator it = swap.begin(); it != swap.end(); ++it){
+        destination.push_back(it->first);
+    }
+
+    DoubleComp comp;
+    mergeSort(destination, comp);
+
+    std::deque<WebPage*> dest;
+    while(!destination.empty()){
+        dest.push_back(pageNames[swap[destination.front()]]);
+        destination.pop_front();
+    }
+
+    return dest;
 }
 
 Set<WebPage*> SearchEngine::processAND(const std::string line) {
