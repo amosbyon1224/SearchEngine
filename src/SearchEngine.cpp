@@ -127,6 +127,57 @@ std::deque<WebPage*> SearchEngine::SetToDeque(Set<WebPage*>& source) const  {
     return destination;
 }
 
+std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::string, Set<WebPage*> > myMap){
+    std::map<std::string, double> pr;
+    std::map<std::string, Set<WebPage*> >::iterator it;
+
+    //initialize pr to 1/N
+    for(it=myMap.begin(); it != myMap.end(); ++it){
+        pr[it->first] = 1/myMap.size();
+    }
+
+    //run simulation 30 times
+    for(int i = 0; i < 30; i++){
+        std::map<std::string, double> temp_pr;
+        std::map<std::string, double>::iterator it2;
+
+        //initialize temp_pr to 0
+        for(it2 = pr.begin(); it2 != pr.end(); ++it2){
+            temp_pr[it2->first] = 0;
+        }
+
+        //loop through the Adjacency Set
+        for(it = myMap.begin(); it != myMap.end(); ++it){
+            std::string name = it->first;
+            Set<WebPage*> s = it->second;
+            Set<WebPage*>::iterator it3;
+
+            if(s.size() != 0){
+                //add computed pagerank with dampening factor
+                for(it3 = s.begin(); it3 != s.end(); ++it3){
+                    temp_pr[(*it3)->filename()] += ((0.85)*pr[name])/s.size();
+                }
+
+                //add rest to all pages in the map
+                for(it2 = pr.begin(); it2 != pr.end(); ++it2){
+                    if(it2->first != name){
+                        temp_pr[it2->first] += ((0.15)*pr[name])/temp_pr.size();
+                    }
+                }
+            }else{
+                //if no outgoing links, equally distribute across all nodes
+                for(it2 = pr.begin(); it2 != pr.end(); ++it2){
+                    temp_pr[it2->first] += ((0.15)*pr[name])/temp_pr.size();
+                }
+            }
+        }
+
+        //update pr
+        pr = temp_pr;
+    }
+    return pr;
+}
+
 Set<WebPage*> SearchEngine::processAND(const std::string line) {
     Set<WebPage*> result,singleword;
     std::string word="";
