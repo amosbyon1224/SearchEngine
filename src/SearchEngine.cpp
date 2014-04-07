@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <iostream>
 
 // Comparator object
 bool AlphaWPComp::operator()(const WebPage* lhs, const WebPage* rhs)    {
@@ -79,12 +80,10 @@ std::deque<WebPage*> SearchEngine::processSearch(std::string inStr,bool usePR) {
     // Generate T
     Set<WebPage*> T = generateT(S);
 
-    return SetToDeque(T);
-    /*
+    //return SetToDeque(T);
     // Then make adjacency matrix & generate page rank
-    if(usePR) return FUNCTIONNAME(generateAdjacency(T));
+    if(usePR) return MapToDeque(generatePageRank(generateAdjacency(T)));
     else return SetToDeque(T);
-    */
 }
 
 Set<WebPage*> SearchEngine::generateT(const Set<WebPage*>& S) const {
@@ -137,11 +136,12 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
 
     //initialize pr to 1/N
     for(it=myMap.begin(); it != myMap.end(); ++it){
-        pr[it->first] = 1/myMap.size();
+        pr[it->first] = 1.0/myMap.size();
+        std::cerr << "Preliminary values: " << pr[it->first] << std::endl;
     }
 
     //run simulation 30 times
-    for(int i = 0; i < 30; i++){
+    for(int i = 0; i < 30; ++i){
         std::map<std::string, double> temp_pr;
         std::map<std::string, double>::iterator it2;
 
@@ -165,19 +165,23 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
                 //add rest to all pages in the map
                 for(it2 = pr.begin(); it2 != pr.end(); ++it2){
                     if(it2->first != name){
-                        temp_pr[it2->first] += ((0.15)*pr[name])/temp_pr.size();
+                        temp_pr[it2->first] += ((0.15)*pr[name])/(temp_pr.size()-1);
                     }
                 }
             }else{
                 //if no outgoing links, equally distribute across all nodes
                 for(it2 = pr.begin(); it2 != pr.end(); ++it2){
-                    temp_pr[it2->first] += ((0.15)*pr[name])/temp_pr.size();
+                    temp_pr[it2->first] += pr[name]/temp_pr.size();
                 }
             }
         }
 
         //update pr
         pr = temp_pr;
+        for(it2 = pr.begin(); it2 != pr.end(); ++it2)   {
+            std::cerr << "Iterated value: " << it2->second << std::endl;
+        }
+        std::cerr << "Finished iteration number " << i << std::endl;
     }
     return pr;
 }
@@ -187,16 +191,20 @@ std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMa
 
     std::map<double, std::string> swap;
 
+    std::cerr << myMap.size() << std::endl;
     //swaps the key with the val
     for(std::map<std::string, double>::iterator it = myMap.begin(); it != myMap.end(); ++it){
+        std::cerr << it->second << std::endl;
         swap[it->second] = it->first;
     }
+    std::cerr << swap.size() << std::endl;
     for(std::map<double, std::string>::iterator it = swap.begin(); it != swap.end(); ++it){
         destination.push_back(it->first);
     }
 
     DoubleComp comp;
     mergeSort(destination, comp);
+    std::cerr << destination.size() << std::endl;
 
     std::deque<WebPage*> dest;
     while(!destination.empty()){
@@ -204,6 +212,7 @@ std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMa
         destination.pop_front();
     }
 
+    std::cerr << dest.size() << " and " << destination.size() << std::endl;
     return dest;
 }
 

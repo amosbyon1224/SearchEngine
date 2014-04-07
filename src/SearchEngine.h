@@ -35,7 +35,8 @@ class SearchEngine  {
         Set<WebPage*> generateT(const Set<WebPage*>& S) const;  // Expand set to 1-away.
         std::map<std::string,Set<WebPage*> > generateAdjacency(const Set<WebPage*>& T) const;   // Generate adjacency list
         std::deque<WebPage*> SetToDeque(Set<WebPage*>& source) const;   // Change Set to sorted std::deque
-        std::map<std::string, double> generatePageRank(std::map<std::string, Set<WebPage*> > myMap) //Generate map with pagerank value associated to filename
+        std::map<std::string, double> generatePageRank(std::map<std::string, Set<WebPage*> > myMap); //Generate map with pagerank value associated to filename
+        std::deque<WebPage*> MapToDeque(std::map<std::string, double> myMap);
 
         // Utilities
         bool alphanumeric(const char ch) const; // Returns true iff character is alphanumeric
@@ -45,6 +46,10 @@ class SearchEngine  {
 
 struct AlphaWPComp  {
     bool operator()(const WebPage* lhs, const WebPage* rhs);
+};
+
+struct DoubleComp  {
+    bool operator()(const double lhs, const double rhs);
 };
 
 #endif
