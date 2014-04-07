@@ -45,6 +45,7 @@ SearchForm::SearchForm(QWidget* parent, SearchEngine* engine) : QWidget(parent),
     connect(quitBtn,SIGNAL(clicked()),this,SLOT(quitClicked()));
     connect(searchBtn,SIGNAL(clicked()),this,SLOT(searchClicked()));
     connect(resultBox,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(resultClicked(QListWidgetItem*)));
+    connect(pageRank,SIGNAL(toggled(bool)),this,SLOT(searchClicked())); // When we switch modes, also want to search again.
 
     // Set layout
     setLayout(mainLayout);
