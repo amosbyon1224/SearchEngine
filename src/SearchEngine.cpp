@@ -12,9 +12,15 @@ bool AlphaWPComp::operator()(const WebPage* lhs, const WebPage* rhs)    {
     return lhs->filename() < rhs->filename();
 }
 
-bool DoubleComp::operator()(const double lhs, const double rhs){
-    return lhs < rhs;
+bool DoubleComp::operator()(const Pair lhs, const Pair rhs){
+    return lhs.pr > rhs.pr;
 }
+
+//structs
+struct Pair{
+    std::string str;
+    double pr;
+};
 
 //Constructors
 SearchEngine::SearchEngine()    {}
@@ -185,7 +191,7 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
 }
 
 std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMap){
-    std::deque<double> destination;
+    std::deque<Pair> destination;
 
     std::map<double, std::string> swap;
 
@@ -193,12 +199,16 @@ std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMa
     //swaps the key with the val
     for(std::map<std::string, double>::iterator it = myMap.begin(); it != myMap.end(); ++it){
         std::cerr << it->second << std::endl;
-        swap[it->second] = it->first;
+        Pair p;
+        p.str = it->first;
+        p.pr = it->second;
+        destination.push_back(p);
+        //swap[it->second] = it->first;
     }
-    std::cerr << swap.size() << std::endl;
+    /*std::cerr << swap.size() << std::endl;
     for(std::map<double, std::string>::iterator it = swap.begin(); it != swap.end(); ++it){
         destination.push_back(it->first);
-    }
+    }*/
 
     DoubleComp comp;
     mergeSort(destination, comp);
