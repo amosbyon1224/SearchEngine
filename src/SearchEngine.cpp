@@ -16,12 +16,6 @@ bool DoubleComp::operator()(const Pair lhs, const Pair rhs){
     return lhs.pr > rhs.pr;
 }
 
-//structs
-struct Pair{
-    std::string str;
-    double pr;
-};
-
 //Constructors
 SearchEngine::SearchEngine()    {}
 SearchEngine::SearchEngine(std::string fname)    {

@@ -44,12 +44,17 @@ class SearchEngine  {
 
 };
 
+struct Pair{
+    std::string str;
+    double pr;
+};
+
 struct AlphaWPComp  {
     bool operator()(const WebPage* lhs, const WebPage* rhs);
 };
 
 struct DoubleComp  {
-    bool operator()(const double lhs, const double rhs);
+    bool operator()(const Pair lhs, const Pair rhs);
 };
 
 #endif
