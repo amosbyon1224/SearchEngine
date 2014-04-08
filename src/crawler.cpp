@@ -31,7 +31,7 @@ int main(int argc, char* argv[])    {
     set<string>* explored = new set<string>;   // Int is 1 if not complete, 2 if visited
 
     while(in >> fname)  {
-        dfs(fname,argv[2],explored);
+        if(explored->find(fname) == explored->end()) dfs(fname,argv[2],explored);
     }
 
     in.close();
