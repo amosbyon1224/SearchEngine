@@ -12,3 +12,12 @@
   + USC ID: 4338012984
 
 We have made contact and started working as a group.
+
+To compile and run crawler:
+make -f mk_crawler
+./bin/cralwer SEEDFILE OUTPUTFILE
+
+To compile and run application:
+qmake
+make
+./bin/team_project_26 INDEXFILE

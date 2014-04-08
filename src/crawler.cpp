@@ -19,6 +19,13 @@ int main(int argc, char* argv[])    {
         cerr << "Could not open seed file." << endl;
     }
 
+    // Test output stream & clear output file
+    ofstream out(argv[2],ios::out | ios::trunc);
+    if(!out.is_open())  {
+        cerr << "Could not open output file." << endl;
+    }
+    out.close();
+
     // Depth first search!
     string fname;
     set<string>* explored = new set<string>;   // Int is 1 if not complete, 2 if visited
