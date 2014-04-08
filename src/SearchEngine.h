@@ -49,6 +49,7 @@ struct Pair{
     double pr;
 };
 
+// Relevant comparators
 struct AlphaWPComp  {
     bool operator()(const WebPage* lhs, const WebPage* rhs);
 };

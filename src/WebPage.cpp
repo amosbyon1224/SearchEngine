@@ -25,11 +25,13 @@ Set<std::string> WebPage::allWords() const    {
     return words;
 }
 
+// So we can cout it or something
 std::ostream& operator<<(std::ostream &os,const WebPage& page)    {
     os << page.rawfile;
     return os;
 }
 
+// Raw content processing, not just making it
 void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
     // Open up file
     std::ifstream in;
@@ -107,6 +109,7 @@ void WebPage::parse(const std::map<std::string,WebPage*>& pageNames)   {
     in.close();
 }
 
+// Access methods
 Set<WebPage*> WebPage::allOutgoingLinks() const  {return outLinks;}
 Set<WebPage*> WebPage::allIncomingLinks() const  {return inLinks;}
 std::string WebPage::filename() const    {return fname;}

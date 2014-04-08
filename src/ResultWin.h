@@ -21,10 +21,10 @@ class ResultWin : public QWidget    {
         QSize minimumSizeHint() const   {return QSize(300,200);}
 
         // Populate the page
-        void populate(const std::string fname);
+        void populate(const std::string fname); // Clears and repopulates the window
 
     private slots:
-        void resultClicked(QListWidgetItem* item);
+        void resultClicked(QListWidgetItem* item);  // If something in a list is clicked
 
     private:
         QListWidget*    inLinkBox;

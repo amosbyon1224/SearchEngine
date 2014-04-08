@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 
-// Comparator object
+// Comparator objects
 bool AlphaWPComp::operator()(const WebPage* lhs, const WebPage* rhs)    {
     return lhs->filename() < rhs->filename();
 }
@@ -80,7 +80,6 @@ std::deque<WebPage*> SearchEngine::processSearch(std::string inStr,bool usePR) {
     // Generate T
     Set<WebPage*> T = generateT(S);
 
-    //return SetToDeque(T);
     // Then make adjacency matrix & generate page rank
     if(usePR) return MapToDeque(generatePageRank(generateAdjacency(T)));
     else return SetToDeque(T);
@@ -121,15 +120,18 @@ std::map<std::string,Set<WebPage*> > SearchEngine::generateAdjacency(const Set<W
 // Take all elements of Set and place them in sorted deque
 std::deque<WebPage*> SearchEngine::SetToDeque(Set<WebPage*>& source) const  {
     std::deque<WebPage*> destination;
+    // Put into unsorted deque
     for(Set<WebPage*>::iterator it = source.begin(); it != source.end(); ++it)  {
         destination.push_back(*it);
     }
 
+    // Now sort
     AlphaWPComp comp;
     mergeSort(destination,comp);
     return destination;
 }
 
+// Generate page ranks
 std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::string, Set<WebPage*> > myMap){
     std::map<std::string, double> pr;
     std::map<std::string, Set<WebPage*> >::iterator it;
@@ -184,20 +186,13 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
 std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMap){
     std::deque<Pair> destination;
 
-    //std::map<double, std::string> swap;
-
     //puts keys and values in myMap into a Pair and puts it into destination
     for(std::map<std::string, double>::iterator it = myMap.begin(); it != myMap.end(); ++it){
         Pair p;
         p.str = it->first;
         p.pr = it->second;
         destination.push_back(p);
-        //swap[it->second] = it->first;
     }
-    /*std::cerr << swap.size() << std::endl;
-    for(std::map<double, std::string>::iterator it = swap.begin(); it != swap.end(); ++it){
-        destination.push_back(it->first);
-    }*/
 
     DoubleComp comp;
     mergeSort(destination, comp);
@@ -278,6 +273,7 @@ Set<WebPage*> SearchEngine::processSingle(const std::string inStr, const std::st
     return word;
 }
 
+// Generates the set given a word, and adds to map
 Set<WebPage*> SearchEngine::generateQuery(const std::string query) const    {
     Set<WebPage*> containing;
     for(std::vector<WebPage*>::const_iterator it = pages.begin(); it != pages.end(); ++it)  {

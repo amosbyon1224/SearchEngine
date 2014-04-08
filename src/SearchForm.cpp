@@ -52,13 +52,18 @@ SearchForm::SearchForm(QWidget* parent, SearchEngine* engine) : QWidget(parent),
 }
 
 SearchForm::~SearchForm()   {
+    resultBox->clear();
     delete searchBtn;
     delete aboutBtn;
     delete quitBtn;
     delete searchTerms;
     delete resultBox;
+    delete pageRank;
+    delete alphabet;
     delete searchSection;
     delete buttons;
+    delete radioButtons;
+    delete buttonBox;
     delete mainLayout;
 }
 
@@ -73,14 +78,16 @@ void SearchForm::quitClicked()  {
 
 void SearchForm::searchClicked()    {
     resultBox->clear();
+    // Get results
     results = se->processSearch(searchTerms->text().toStdString(),pageRank->isChecked());
+    // Populate box with results
     for(std::deque<WebPage*>::iterator it = results.begin(); it != results.end(); ++it)    {
         new QListWidgetItem(QString((*it)->filename().c_str()), resultBox);
     }
 }
 
 void SearchForm::resultClicked(QListWidgetItem* item)   {
-    // If hidden, show it
+    // If other window hidden, show it
     if(reswin->isHidden()) reswin->show();
     reswin->populate(item->text().toStdString());
 }

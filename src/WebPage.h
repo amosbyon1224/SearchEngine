@@ -43,6 +43,5 @@ class WebPage {
         Set<WebPage*> outLinks;
         Set<WebPage*> inLinks;
         std::string fname;
-        // you get to decide what goes here.
 };
 #endif

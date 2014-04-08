@@ -2,7 +2,7 @@
 #include <QObject>
 
 ResultWin::ResultWin(QWidget* parent, SearchEngine* eng) : QWidget(parent), se(eng) {
-    // Allocate memory for all widget
+    // Allocate memory for all widgets
     inLinkBox = new QListWidget;
     outLinkBox = new QListWidget;
     mainLayout = new QHBoxLayout;
@@ -30,6 +30,8 @@ ResultWin::ResultWin(QWidget* parent, SearchEngine* eng) : QWidget(parent), se(e
 }
 
 ResultWin::~ResultWin() {
+    inLinkBox->clear();
+    outLinkBox->clear();
     delete inLinkBox;
     delete outLinkBox;
     delete linkBar;
@@ -57,6 +59,7 @@ void ResultWin::populate(const std::string fname) {
     }
 }
 
+// Slot that basically calls populate for the correct item
 void ResultWin::resultClicked(QListWidgetItem* item)    {
     populate(item->text().toStdString());
 }

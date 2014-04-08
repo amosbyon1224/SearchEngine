@@ -53,7 +53,6 @@ class SearchForm : public QWidget   {
 
         // List of dynamic result windows
         std::deque<WebPage*> results;
-        //std::list<QListWidgetItem*> results;
 };
 
 #endif

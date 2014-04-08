@@ -14,6 +14,7 @@ int main(int argc, char* argv[])    {
         cerr << "Try again with a seed file." << endl;
     }
 
+    // Open input file stream
     ifstream in(argv[1]);
     if(in.fail())   {
         cerr << "Could not open seed file." << endl;
@@ -28,8 +29,9 @@ int main(int argc, char* argv[])    {
 
     // Depth first search!
     string fname;
-    set<string>* explored = new set<string>;   // Int is 1 if not complete, 2 if visited
+    set<string>* explored = new set<string>; // Set of explored things
 
+    // For all non-explored names in the file, dfs
     while(in >> fname)  {
         if(explored->find(fname) == explored->end()) dfs(fname,argv[2],explored);
     }
@@ -46,13 +48,13 @@ void dfs(string inputFile,char* outputFile, set<string>* explored) {
         cerr << "File " << inputFile << " failed to open." << endl;
     }
 
-    // Do output
+    // Open output
     ofstream out;
-    out.open(outputFile, ios::out | ios::app);  // want to append
+    out.open(outputFile, ios::out | ios::app);  // append
     if(!out.is_open())  {
         cerr << "File " << outputFile << " failed to open." << endl;
     }
-    out << inputFile << endl;   // Write down that we found this page
+    out << inputFile << endl; // Record the filename
     out.close();
 
     // List that we've explored this file
@@ -90,5 +92,5 @@ void dfs(string inputFile,char* outputFile, set<string>* explored) {
         }
     }
 
-    // We're done now; no need to turn black
+    // We're done now
 }
