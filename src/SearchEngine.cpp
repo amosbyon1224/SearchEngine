@@ -163,10 +163,8 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
                 }
 
                 //add rest to all pages in the map
-                for(it2 = pr.begin(); it2 != pr.end(); ++it2){
-                    if(it2->first != name){
-                        temp_pr[it2->first] += ((0.15)*pr[name])/(temp_pr.size()-1);
-                    }
+                for(it2 = temp_pr.begin(); it2 != temp_pr.end(); ++it2){
+                    it2->second += ((0.15)*pr[name])/temp_pr.size();
                 }
             }else{
                 //if no outgoing links, equally distribute across all nodes
