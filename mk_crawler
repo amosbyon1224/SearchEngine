@@ -1,9 +1,9 @@
 # Compiler and compiler flags
 CC=g++
 # For final
-# CFLAGS=-Werror=all -std=c++11 -O2 -I.
+CFLAGS=-Werror=all -std=c++11 -O2 -I./lib
 # For debug
-CFLAGS=-Wall -std=c++11 -g -I./lib
+# CFLAGS=-Wall -std=c++11 -g -I./lib
 # Directories
 BDIR=bin
 
