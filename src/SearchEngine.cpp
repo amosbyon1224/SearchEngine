@@ -1,20 +1,12 @@
 #include "SearchEngine.h"
 #include "msort.h"
+#include "comps.h"
 #include <stdexcept>
 #include <algorithm>
 #include <sstream>
 #include <iostream>
 #include <fstream>
 #include <iostream>
-
-// Comparator objects
-bool AlphaWPComp::operator()(const WebPage* lhs, const WebPage* rhs)    {
-    return lhs->filename() < rhs->filename();
-}
-
-bool DoubleComp::operator()(const Pair lhs, const Pair rhs){
-    return lhs.pr > rhs.pr;
-}
 
 //Constructors
 SearchEngine::SearchEngine()    {}

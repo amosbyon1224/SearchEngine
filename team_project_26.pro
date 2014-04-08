@@ -17,11 +17,13 @@ QMAKE_LFLAGS -= -stdlib=libc++
 # Input
 HEADERS += lib/Set.h \
            lib/msort.h \
+           src/comps.h \
            src/ResultWin.h \
            src/SearchEngine.h \
            src/SearchForm.h \
            src/WebPage.h
-SOURCES += src/ResultWin.cpp \
+SOURCES += src/comps.cpp \
+           src/ResultWin.cpp \
            src/SearchEngine.cpp \
            src/SearchForm.cpp \
            src/main.cpp \
