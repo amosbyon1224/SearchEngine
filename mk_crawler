@@ -9,8 +9,11 @@ BDIR=bin
 
 all: $(BDIR)/crawler
 
-$(BDIR)/crawler:
+$(BDIR)/crawler: $(BDIR)/.dirstamp
 	$(CC) src/crawler.cpp -o $@ $(CFLAGS)
+
+$(BDIR)/.dirstamp:
+	mkdir -p bin
 
 # Probably not how I should implement clean!
 .PHONY: clean
