@@ -193,10 +193,10 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
 std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMap){
     std::deque<Pair> destination;
 
-    std::map<double, std::string> swap;
+    //std::map<double, std::string> swap;
 
     std::cerr << myMap.size() << std::endl;
-    //swaps the key with the val
+    //puts keys and values in myMap into a Pair and puts it into destination
     for(std::map<std::string, double>::iterator it = myMap.begin(); it != myMap.end(); ++it){
         std::cerr << it->second << std::endl;
         Pair p;
@@ -216,7 +216,7 @@ std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMa
 
     std::deque<WebPage*> dest;
     while(!destination.empty()){
-        dest.push_back(pageNames[swap[destination.front()]]);
+        dest.push_back(pageNames[destination.front().str]);
         destination.pop_front();
     }
 
