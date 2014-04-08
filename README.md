@@ -15,7 +15,7 @@ We have made contact and started working as a group.
 
 To compile and run crawler:
 `make -f mk_crawler`
-`./bin/cralwer SEEDFILE OUTPUTFILE`
+`./bin/crawler SEEDFILE OUTPUTFILE`
 
 To compile and run application:
 `qmake`
