@@ -137,7 +137,6 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
     //initialize pr to 1/N
     for(it=myMap.begin(); it != myMap.end(); ++it){
         pr[it->first] = 1.0/myMap.size();
-        std::cerr << "Preliminary values: " << pr[it->first] << std::endl;
     }
 
     //run simulation 30 times
@@ -177,9 +176,7 @@ std::map<std::string, double> SearchEngine::generatePageRank(std::map<std::strin
         //update pr
         pr = temp_pr;
         for(it2 = pr.begin(); it2 != pr.end(); ++it2)   {
-            std::cerr << "Iterated value: " << it2->second << std::endl;
         }
-        std::cerr << "Finished iteration number " << i << std::endl;
     }
     return pr;
 }
@@ -189,10 +186,8 @@ std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMa
 
     //std::map<double, std::string> swap;
 
-    std::cerr << myMap.size() << std::endl;
     //puts keys and values in myMap into a Pair and puts it into destination
     for(std::map<std::string, double>::iterator it = myMap.begin(); it != myMap.end(); ++it){
-        std::cerr << it->second << std::endl;
         Pair p;
         p.str = it->first;
         p.pr = it->second;
@@ -206,7 +201,6 @@ std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMa
 
     DoubleComp comp;
     mergeSort(destination, comp);
-    std::cerr << destination.size() << std::endl;
 
     std::deque<WebPage*> dest;
     while(!destination.empty()){
@@ -214,7 +208,6 @@ std::deque<WebPage*> SearchEngine::MapToDeque(std::map<std::string, double> myMa
         destination.pop_front();
     }
 
-    std::cerr << dest.size() << " and " << destination.size() << std::endl;
     return dest;
 }
 
