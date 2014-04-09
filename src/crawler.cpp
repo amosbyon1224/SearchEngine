@@ -38,6 +38,8 @@ int main(int argc, char* argv[])    {
 
     in.close();
 
+    delete explored;
+
     return 0;
 }
 
