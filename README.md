@@ -4,7 +4,6 @@
 **Developer 1**:
   + Name: Amos Byon
   + USC Email: abyon@usc.edu
-  + USC ID: 1513187445
 
 **Developer 2**:
   + Name: Trevor Cai
