@@ -8,8 +8,6 @@
 
 **Developer 2**:
   + Name: Trevor Cai
-  + USC Email: tcai@usc.edu
-  + USC ID: 4338012984
 
 We have made contact and started working as a group.
 
